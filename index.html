@@ -27,6 +27,10 @@
   </head>
   <body class="bg-slate-50 text-slate-900 antialiased selection:bg-red-100 selection:text-red-900">
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <script
+      type="module"
+      src="/src/main.tsx"
+      onerror="document.getElementById('root').innerHTML='<main class=p-8><h1>BloodConnect requires a Vite build for GitHub Pages</h1><p>In your GitHub repository go to Settings &rarr; Pages &rarr; Source and select GitHub Actions, or run npm run build and publish the dist folder.</p></main>';"
+    ></script>
   </body>
 </html>
