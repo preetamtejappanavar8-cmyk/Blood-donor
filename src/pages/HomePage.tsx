@@ -13,6 +13,9 @@ import {usePortal} from '../context/PortalContext.tsx';
 import {CITIES} from '../data/seedData.ts';
 import {BloodGroup, CoverageScope} from '../types/bloodconnect.ts';
 import {BLOOD_GROUPS} from '../utils/compatibility.ts';
+import heroBloodDonationImg from '../assets/images/hero_blood_donation_1795278439284.jpg';
+import bloodBankLabImg from '../assets/images/blood_bank_lab_1795278440324.jpg';
+import communityDonorCampImg from '../assets/images/community_donor_camp_1795278439848.jpg';
 
 export function HomePage() {
   const {
@@ -282,7 +285,7 @@ export function HomePage() {
             <div className="lg:col-span-6 flex">
               <div className="relative w-full rounded-xl overflow-hidden border border-slate-200 bg-slate-100 min-h-[320px]">
                 <ResilientImage
-                  src="/src/assets/images/hero_blood_donation_1795278439284.jpg"
+                  src={heroBloodDonationImg}
                   alt="Medical coordinator checking verified blood unit records inside an Indian hospital blood donation center"
                   fallbackTitle="BloodConnect Clinical Coordination Centre"
                   className="w-full h-full object-cover lg:absolute lg:inset-0"
@@ -456,7 +459,7 @@ export function HomePage() {
             <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
               <div className="aspect-[4/3] bg-slate-100 overflow-hidden">
                 <ResilientImage
-                  src="/src/assets/images/blood_bank_lab_1795278440324.jpg"
+                  src={bloodBankLabImg}
                   alt="Licensed blood bank cold storage laboratory with labeled blood unit shelves"
                   fallbackTitle="Licensed Blood Bank Storage"
                   className="w-full h-full object-cover"
@@ -481,7 +484,7 @@ export function HomePage() {
             <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
               <div className="aspect-[4/3] bg-slate-100 overflow-hidden">
                 <ResilientImage
-                  src="/src/assets/images/community_donor_camp_1795278439848.jpg"
+                  src={communityDonorCampImg}
                   alt="Volunteer nurse speaking with a blood donor at a community blood donation camp"
                   fallbackTitle="Voluntary Community Donor Drive"
                   className="w-full h-full object-cover"

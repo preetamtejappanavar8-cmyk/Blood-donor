@@ -179,7 +179,12 @@ export function PortalProvider({children}: {children: React.ReactNode}) {
   useEffect(() => {
     let active = true;
     fetch('/api/notifications/logs')
-      .then((res) => (res.ok ? res.json() : null))
+      .then(async (res) => {
+        if (!res.ok) return null;
+        const ct = res.headers.get('content-type') ?? '';
+        if (!ct.includes('application/json')) return null;
+        return res.json();
+      })
       .then((data) => {
         if (!active || !data) return;
         if (typeof data.emailConfigured === 'boolean') setEmailConfigured(data.emailConfigured);
@@ -187,7 +192,7 @@ export function PortalProvider({children}: {children: React.ReactNode}) {
         if (Array.isArray(data.logs)) setEmailNotifications(data.logs);
       })
       .catch(() => {
-        // Ignore if running in static preview without backend
+        // Ignore if running on static host (e.g. GitHub Pages) without Express backend
       });
     return () => {
       active = false;
@@ -227,7 +232,12 @@ export function PortalProvider({children}: {children: React.ReactNode}) {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(payload),
     })
-      .then((res) => (res.ok ? res.json() : null))
+      .then(async (res) => {
+        if (!res.ok) return null;
+        const ct = res.headers.get('content-type') ?? '';
+        if (!ct.includes('application/json')) return null;
+        return res.json();
+      })
       .then((data) => {
         if (data?.notification) {
           setEmailConfigured(Boolean(data.emailConfigured));
