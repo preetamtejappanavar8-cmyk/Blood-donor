@@ -1,5 +1,6 @@
 import React, {useMemo, useState} from 'react';
 import {Building2, Clock, MapPin, Phone, Search, ShieldCheck} from 'lucide-react';
+import {CoverageSelector} from '../components/CoverageSelector.tsx';
 import {SpatialProximityMap} from '../components/SpatialProximityMap.tsx';
 import {usePortal} from '../context/PortalContext.tsx';
 import {CITIES} from '../data/seedData.ts';
@@ -16,9 +17,7 @@ export function BloodBanksPage() {
     bloodBanks,
     donors,
     coverageScope,
-    setCoverageScope,
     selectedCity,
-    setSelectedCity,
     navigate,
   } = usePortal();
 
@@ -68,43 +67,7 @@ export function BloodBanksPage() {
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2">
-          <div className="inline-flex items-center p-1 bg-slate-100 rounded-lg">
-            {(
-              [
-                {id: 'all_india', label: 'All India'},
-                {id: 'karnataka', label: 'Karnataka'},
-                {id: 'city', label: 'City'},
-              ] as const
-            ).map((s) => (
-              <button
-                key={s.id}
-                type="button"
-                onClick={() => setCoverageScope(s.id)}
-                className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors cursor-pointer ${
-                  coverageScope === s.id
-                    ? 'bg-white text-slate-900 shadow-xs'
-                    : 'text-slate-600 hover:text-slate-900'
-                }`}
-              >
-                {s.label}
-              </button>
-            ))}
-          </div>
-
-          <select
-            value={selectedCity}
-            onChange={(e) => setSelectedCity(e.target.value)}
-            aria-label="Reference City"
-            className="h-9 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium text-slate-900"
-          >
-            {CITIES.map((c) => (
-              <option key={c.name} value={c.name}>
-                Near {c.name}
-              </option>
-            ))}
-          </select>
-        </div>
+        <CoverageSelector variant="compact" alwaysShowCitySelect citySelectPrefix="Near" />
       </div>
 
       {/* Filters */}

@@ -2,6 +2,7 @@ import React from 'react';
 import {Mail, X} from 'lucide-react';
 import {Footer} from './components/Footer.tsx';
 import {Navbar} from './components/Navbar.tsx';
+import {PortalBackground} from './components/PortalBackground.tsx';
 import {PortalProvider, usePortal} from './context/PortalContext.tsx';
 import {AdminDashboardPage} from './pages/AdminDashboardPage.tsx';
 import {AuthPage} from './pages/AuthPage.tsx';
@@ -16,19 +17,22 @@ function PortalRouter() {
   const {currentPage, lastEmailAlert, dismissLastEmailAlert, navigate} = usePortal();
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900">
-      <Navbar />
-      <main className="flex-1">
-        {currentPage === 'home' && <HomePage />}
-        {currentPage === 'find-donors' && <FindDonorsPage />}
-        {currentPage === 'become-donor' && <BecomeDonorPage />}
-        {currentPage === 'emergency-request' && <EmergencyRequestPage />}
-        {currentPage === 'blood-availability' && <BloodAvailabilityPage />}
-        {currentPage === 'blood-banks' && <BloodBanksPage />}
-        {currentPage === 'auth' && <AuthPage />}
-        {currentPage === 'admin' && <AdminDashboardPage />}
-      </main>
-      <Footer />
+    <div className="relative min-h-screen flex flex-col bg-slate-50 text-slate-900">
+      <PortalBackground />
+      <div className="relative z-10 flex flex-col flex-1">
+        <Navbar />
+        <main className="flex-1">
+          {currentPage === 'home' && <HomePage />}
+          {currentPage === 'find-donors' && <FindDonorsPage />}
+          {currentPage === 'become-donor' && <BecomeDonorPage />}
+          {currentPage === 'emergency-request' && <EmergencyRequestPage />}
+          {currentPage === 'blood-availability' && <BloodAvailabilityPage />}
+          {currentPage === 'blood-banks' && <BloodBanksPage />}
+          {currentPage === 'auth' && <AuthPage />}
+          {currentPage === 'admin' && <AdminDashboardPage />}
+        </main>
+        <Footer />
+      </div>
 
       {lastEmailAlert && (
         <div

@@ -1,7 +1,7 @@
 import React, {useMemo, useState} from 'react';
 import {AlertCircle, CheckCircle2, Clock, ShieldCheck, X} from 'lucide-react';
+import {CoverageSelector} from '../components/CoverageSelector.tsx';
 import {usePortal} from '../context/PortalContext.tsx';
-import {CITIES} from '../data/seedData.ts';
 import {BloodBank, BloodGroup} from '../types/bloodconnect.ts';
 import {
   BLOOD_GROUPS,
@@ -16,9 +16,7 @@ export function BloodAvailabilityPage() {
   const {
     bloodBanks,
     coverageScope,
-    setCoverageScope,
     selectedCity,
-    setSelectedCity,
     reserveBankUnits,
     currentUser,
   } = usePortal();
@@ -105,44 +103,7 @@ export function BloodAvailabilityPage() {
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2">
-          <div className="inline-flex items-center p-1 bg-slate-100 rounded-lg">
-            {(
-              [
-                {id: 'all_india', label: 'All India'},
-                {id: 'karnataka', label: 'Karnataka'},
-                {id: 'city', label: 'City'},
-              ] as const
-            ).map((s) => (
-              <button
-                key={s.id}
-                type="button"
-                onClick={() => setCoverageScope(s.id)}
-                className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors cursor-pointer ${
-                  coverageScope === s.id
-                    ? 'bg-white text-slate-900 shadow-xs'
-                    : 'text-slate-600 hover:text-slate-900'
-                }`}
-              >
-                {s.label}
-              </button>
-            ))}
-          </div>
-
-          {coverageScope === 'city' && (
-            <select
-              value={selectedCity}
-              onChange={(e) => setSelectedCity(e.target.value)}
-              className="h-9 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium text-slate-900"
-            >
-              {CITIES.map((c) => (
-                <option key={c.name} value={c.name}>
-                  {c.name}
-                </option>
-              ))}
-            </select>
-          )}
-        </div>
+        <CoverageSelector variant="compact" />
       </div>
 
       {/* 8-Group Confirmed Summary Strip */}

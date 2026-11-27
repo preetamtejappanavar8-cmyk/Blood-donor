@@ -2,16 +2,20 @@ import React, {useMemo, useState} from 'react';
 import {
   ArrowRight,
   Building2,
+  ChevronDown,
   Clock,
   HeartHandshake,
+  MapPin,
   ShieldCheck,
   Siren,
   Users,
 } from 'lucide-react';
+import {CoverageSelector} from '../components/CoverageSelector.tsx';
+import {HeroMedicalBackdrop} from '../components/PortalBackground.tsx';
 import {ResilientImage} from '../components/ResilientImage.tsx';
 import {usePortal} from '../context/PortalContext.tsx';
 import {CITIES} from '../data/seedData.ts';
-import {BloodGroup, CoverageScope} from '../types/bloodconnect.ts';
+import {BloodGroup} from '../types/bloodconnect.ts';
 import {BLOOD_GROUPS} from '../utils/compatibility.ts';
 import heroBloodDonationImg from '../assets/images/hero_blood_donation_1795278439284.jpg';
 import bloodBankLabImg from '../assets/images/blood_bank_lab_1795278440324.jpg';
@@ -85,72 +89,21 @@ export function HomePage() {
     navigate('find-donors');
   };
 
-  const handleScopeChange = (nextScope: CoverageScope) => {
-    setCoverageScope(nextScope);
-    if (nextScope === 'karnataka') {
-      const isKarnatakaCity = CITIES.find((c) => c.name === selectedCity)?.inKarnataka;
-      if (!isKarnatakaCity) setSelectedCity('Bengaluru');
-    }
-  };
-
   return (
     <div className="space-y-16">
       {/* Hero Section: Asymmetric Split with Need Blood Urgently Selector */}
-      <section className="bg-white border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 lg:py-14">
-          {/* Coverage Scope Bar (All India / Karnataka / One City) */}
-          <div className="flex flex-wrap items-center justify-between gap-4 pb-8 mb-8 border-b border-slate-200">
-            <div className="flex flex-wrap items-center gap-3">
-              <span className="text-xs font-medium text-slate-500">Coverage Area</span>
-              <div
-                className="inline-flex items-center p-1 bg-slate-100 rounded-lg"
-                role="group"
-                aria-label="Portal Coverage Scope"
-              >
-                {(
-                  [
-                    {id: 'all_india', label: 'Entire India'},
-                    {id: 'karnataka', label: 'Karnataka State'},
-                    {id: 'city', label: 'Single City'},
-                  ] as {id: CoverageScope; label: string}[]
-                ).map((item) => (
-                  <button
-                    key={item.id}
-                    type="button"
-                    onClick={() => handleScopeChange(item.id)}
-                    className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
-                      coverageScope === item.id
-                        ? 'bg-white text-slate-900 shadow-xs'
-                        : 'text-slate-600 hover:text-slate-900'
-                    }`}
-                  >
-                    {item.label}
-                  </button>
-                ))}
+      <section className="relative overflow-hidden bg-gradient-to-b from-white via-white to-rose-50/40 border-b border-slate-200">
+        <HeroMedicalBackdrop />
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-10 lg:py-14">
+          {/* Selected Area / Coverage Scope Bar */}
+          <div className="space-y-4 pb-8 mb-8 border-b border-slate-200">
+            <CoverageSelector variant="hero" />
+
+            <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-slate-600 px-1">
+              <div className="flex items-center gap-2">
+                <ShieldCheck className="w-4 h-4 text-emerald-700 shrink-0" aria-hidden="true" />
+                <span>Verified &amp; timestamped inventory</span>
               </div>
-
-              {coverageScope === 'city' && (
-                <select
-                  value={selectedCity}
-                  onChange={(e) => setSelectedCity(e.target.value)}
-                  aria-label="Select City"
-                  className="text-xs font-medium bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600"
-                >
-                  {CITIES.map((city) => (
-                    <option key={city.name} value={city.name}>
-                      {city.name}, {city.state}
-                    </option>
-                  ))}
-                </select>
-              )}
-            </div>
-
-            <div className="flex items-center gap-3 text-xs text-slate-600">
-              <ShieldCheck className="w-4 h-4 text-emerald-700 shrink-0" aria-hidden="true" />
-              <span>Verified &amp; timestamped inventory</span>
-              <span className="text-slate-300" aria-hidden="true">
-                ·
-              </span>
               <button
                 type="button"
                 onClick={() => navigate('auth')}
@@ -247,10 +200,14 @@ export function HomePage() {
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 pt-1">
-                  <div className="sm:col-span-5">
+                  <div className="sm:col-span-5 relative">
                     <label htmlFor="hero-city" className="sr-only">
                       City
                     </label>
+                    <MapPin
+                      className="w-4 h-4 text-red-600 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
+                      aria-hidden="true"
+                    />
                     <select
                       id="hero-city"
                       value={selectedCity}
@@ -258,7 +215,7 @@ export function HomePage() {
                         setSelectedCity(e.target.value);
                         setCoverageScope('city');
                       }}
-                      className="w-full h-11 px-3 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600"
+                      className="appearance-none w-full h-11 pl-9 pr-9 bg-white border border-slate-300 hover:border-slate-400 rounded-lg text-sm font-medium text-slate-900 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600"
                     >
                       {scopedCities.map((c) => (
                         <option key={c.name} value={c.name}>
@@ -266,6 +223,10 @@ export function HomePage() {
                         </option>
                       ))}
                     </select>
+                    <ChevronDown
+                      className="w-4 h-4 text-slate-500 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
+                      aria-hidden="true"
+                    />
                   </div>
                   <div className="sm:col-span-7">
                     <button
