@@ -17,7 +17,7 @@ function PortalRouter() {
   const {currentPage, lastEmailAlert, dismissLastEmailAlert, navigate} = usePortal();
 
   return (
-    <div className="relative min-h-screen flex flex-col bg-slate-50 text-slate-900">
+    <div className="relative min-h-screen flex flex-col bg-slate-50 text-slate-900 overflow-x-clip">
       <PortalBackground />
       <div className="relative z-10 flex flex-col flex-1">
         <Navbar />

@@ -138,8 +138,8 @@ export function FindDonorsPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-8">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200 pb-6">
-        <div className="space-y-2">
+      <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 border-b border-slate-200 pb-6">
+        <div className="space-y-2 min-w-0">
           <p className="text-xs font-medium text-red-700">Verified Donor Directory</p>
           <h1 className="font-display font-bold text-3xl text-slate-900">Find Blood Donors</h1>
           <p className="text-sm text-slate-600 max-w-2xl">
@@ -148,7 +148,9 @@ export function FindDonorsPage() {
           </p>
         </div>
 
-        <CoverageSelector variant="compact" alwaysShowCitySelect citySelectPrefix="Near" />
+        <div className="w-full lg:w-auto lg:shrink-0 max-w-full">
+          <CoverageSelector variant="compact" alwaysShowCitySelect citySelectPrefix="Near" />
+        </div>
       </div>
 
       {/* Filter Bar */}
